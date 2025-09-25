@@ -1,5 +1,3 @@
-print("hello world")
-
 from Route import Route
 from FarePredictor import FarePredictor
 from FarePredictor import predict_fare
