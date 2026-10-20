@@ -1,8 +1,23 @@
 # Airfare Prediction Model
 
-A Python airfare prediction project with a web interface built using HTML, CSS, JavaScript, and Flask. Select an airport pair, year, and travel quarter to get an estimate from the original Python model.
+A web application that estimates airfare for a selected airport pair, year, and travel quarter using historical data and linear regression.
 
-## Run the web interface
+### Features
+
+- Select departure and destination airports from available routes.
+- Filter historical records by travel quarter.
+- Generate fare estimates through a Python prediction model.
+- View results in a responsive web interface.
+
+### How it works
+
+The frontend sends the selected route, year, and quarter to a Flask API. The Python model fits regression models to historical fare and airline market-share data, then combines their outputs into a fare estimate.
+
+### Tech stack
+
+**Python · scikit-learn · NumPy · Flask · JavaScript · HTML · CSS**
+
+### Run locally
 
 ```bash
 cd PythonProject
@@ -12,32 +27,16 @@ python -m pip install -r requirements-web.txt
 python server.py
 ```
 
-Open http://127.0.0.1:8765/ in your browser. On Windows, activate the virtual environment with `.venv\Scripts\activate`. The server is intended for local use.
+Open **http://127.0.0.1:8765/**.
 
-In PyCharm, select your project's `.venv` interpreter and run `PythonProject/server.py`.
-
-## Project files
-
-- `PythonProject/FarePredictor.py`: original regression models and final-fare calculation, with quarter filtering.
-- `PythonProject/Route.py`: route data and accessors.
-- `PythonProject/main.py`: original command-line entry point.
-- `PythonProject/server.py`: Flask adapter that calls the original prediction workflow.
-- `PythonProject/static/`: HTML page, CSS styles, and JavaScript interactions.
-- `PythonProject/data.csv`: existing historical dataset.
-- `PythonProject/tests/test_web.py`: API and integration checks.
-
-## Check the web integration
-
-From `PythonProject`:
+### Tests
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-Tests compare the API with direct calls to the original model for each quarter, validate inputs, and check that page assets are served.
+Integration tests cover quarter-specific predictions, input validation, unavailable routes, and page delivery.
 
-## Scope
+### Limitations
 
-The web layer uses the existing prediction formulas. JavaScript handles the form and calls Flask; it does not implement a replacement model. Quarter selection restricts the historical route records to the selected quarter.
-
-The model uses all matching years in the dataset. Estimates are not live ticket quotes, and this repository does not claim validated forecasting accuracy.
+This is an exploratory learning project. Estimates use historical data rather than live ticket prices, and forecasting accuracy has not been validated.
