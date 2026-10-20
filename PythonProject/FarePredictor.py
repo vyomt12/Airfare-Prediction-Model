@@ -16,7 +16,11 @@ class FarePredictor:
 
     def find_similar_routes(self):
         for line in self.y:
-            if line[2] == self.customer_route.get_city1() and line[3] == self.customer_route.get_city2():
+            if (
+                line[2] == self.customer_route.get_city1()
+                and line[3] == self.customer_route.get_city2()
+                and line[1] == str(self.customer_route.get_quarter())
+            ):
                 self.route_list.append(
                     Route.Route(int(line[0]), int(line[1]), line[2], line[3], float(line[4]), float(line[5]), float(line[6]), float(line[7]), float(line[8])))
         if not self.route_list:
