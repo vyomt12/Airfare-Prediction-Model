@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Explore historical airfare trends by route, quarter, and year.">
+<title>Airfare Explorer</title><link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="./"><span class="brand-icon" aria-hidden="true">↗</span> airfare<span class="brand-light">explorer</span></a><a class="source-link" href="https://github.com/vyomt12/Airfare-Prediction-Model" target="_blank" rel="noopener">View project <span aria-hidden="true">↗</span></a></header>
+<main>
+<section class="intro"><div class="eyebrow"><span class="status-dot"></span> A LITTLE DATA. A NEW PERSPECTIVE.</div><h1>Where could<br>your next flight take you<span class="blue">?</span></h1><p>Explore the patterns behind airfare. Pick a route and a quarter<br class="desktop-break"> to estimate an average fare from historical trends.</p><div class="flight-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><span class="plane">✈</span><span class="airport-mark mark-one">ATL <i></i></span><span class="airport-mark mark-two"><i></i> LAX</span></div></section>
+<section class="workspace" aria-label="Fare prediction tool">
+<aside class="search-card"><div class="card-kicker">YOUR ROUTE</div><h2>Let’s explore.</h2><form id="fare-form">
+<div class="airport-fields"><div class="field"><label for="origin">From</label><select id="origin" name="origin" required aria-describedby="airport-help"><option value="">Loading airports…</option></select></div><button type="button" id="swap" class="swap" aria-label="Swap origin and destination">⇅</button><div class="field"><label for="destination">To</label><select id="destination" name="destination" required><option value="">Loading airports…</option></select></div></div>
+<p id="airport-help" class="field-help">Airport pairs follow the order in the historical dataset.</p>
+<div class="field year-field"><label for="year">Prediction year</label><input id="year" name="year" type="number" min="1995" max="9999" value="2027" required><span class="field-help">Your original model uses all matching-quarter records.</span></div>
+<fieldset><legend>Travel quarter</legend><div class="quarters"><label><input type="radio" name="quarter" value="1" checked><span><b>Q1</b><small>Jan–Mar</small></span></label><label><input type="radio" name="quarter" value="2"><span><b>Q2</b><small>Apr–Jun</small></span></label><label><input type="radio" name="quarter" value="3"><span><b>Q3</b><small>Jul–Sep</small></span></label><label><input type="radio" name="quarter" value="4"><span><b>Q4</b><small>Oct–Dec</small></span></label></div></fieldset>
+<button id="estimate-button" class="primary-button" type="submit" disabled>Loading historical data… <span aria-hidden="true">↗</span></button><p id="form-error" class="error" role="alert" hidden></p>
+</form><div class="small-note"><span aria-hidden="true">ⓘ</span> Historical estimates, not live ticket prices.</div></aside>
+<div class="results-column"><section class="result-card" id="result" aria-live="polite" aria-atomic="true"><div class="result-top"><div class="card-kicker">YOUR FARE OUTLOOK</div><span class="pill" id="result-quarter">Q1 · 2027</span></div><div class="route-display"><span id="result-origin">ATL</span><span class="route-line" aria-hidden="true">──────── ✈ ────────</span><span id="result-destination">LAX</span></div><div class="fare-line"><span class="fare" id="fare-amount">—</span><span class="fare-caption">estimated<br>average fare</span></div><p class="result-description" id="result-description">Loading the historical dataset…</p><div class="result-facts"><div><span>Matching records</span><strong id="record-count">—</strong></div><div><span>Dataset period</span><strong id="training-period">—</strong></div><div><span>Model</span><strong>Original Python model</strong></div></div></section>
+</div>
+</section>
+
+<details class="evaluation"><summary>How is this estimate calculated? <span aria-hidden="true">＋</span></summary><p>The form calls the original Python model through Flask. It fits the existing fare and market-share regressions using records that match your route and quarter, then runs your original final-fare calculation. The model uses all matching years, so selecting an earlier year is not a held-out backtest. This interface does not change or validate the original model’s accuracy.</p></details>
+</main><footer><span>Built by Vyom Thakkar</span><span id="dataset-footer">Historical airfare explorer</span><a href="https://github.com/vyomt12/Airfare-Prediction-Model" target="_blank" rel="noopener">Explore the code ↗</a></footer>
+<script type="module" src="/static/app.js"></script>
+</body></html>
