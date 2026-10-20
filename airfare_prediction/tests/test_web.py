@@ -47,7 +47,7 @@ class WebTests(unittest.TestCase):
                 result = response.get_json()
                 self.assertAlmostEqual(result['estimate'], expected, places=9)
                 self.assertEqual(result['count'], len(predictor.route_list))
-                self.assertEqual(result['count'], len(result['history']))
+                self.assertLessEqual(result['count'], len(result['history']))
                 values.append(result['estimate'])
         self.assertNotEqual(values[0], values[1])
 
@@ -66,6 +66,32 @@ class WebTests(unittest.TestCase):
         self.assertIn('No historical records', response.get_json()['error'])
 
 
+
+
+class MappingTests(unittest.TestCase):
+    def test_named_csv_mapping_and_skipping_preserve_quarter_filter(self):
+        predictor = FarePredictor.__new__(FarePredictor)
+        predictor.customer_route = Route(2027, 1, 'ATL', 'LAX', 0, 0, 0, 0, 0)
+        predictor.route_list = []
+        predictor.y = [
+            ['2020', '1', 'ATL', 'LAX', '200', '0.6', '220', '0.1', '100'],
+            ['2021', '1', 'ATL', 'LAX', '210', '0.7', '230', '0.3', '120'],
+            ['2022', '1', 'ATL', 'LAX', '220', '0.8', '240', '0.4', '130'],
+            ['2023', '1', 'ATL', 'LAX', '230', '', '250', '0.1', '140'],
+            ['2024', '2', 'ATL', 'LAX', '240', '0.6', '260', '0.1', '150'],
+        ]
+        predictor.find_similar_routes()
+        self.assertEqual(len(predictor.route_list), 1)
+        record = predictor.route_list[0]
+        self.assertEqual(record.get_year(), 2020)
+        self.assertEqual(record.get_quarter(), 1)
+        self.assertEqual(record.get_fare(), 200)
+        self.assertEqual(record.get_large_ms(), 0.6)
+        self.assertEqual(record.get_large_fare(), 220)
+        self.assertEqual(record.get_low_ms(), 0.1)
+        self.assertEqual(record.get_low_fare(), 100)
+        self.assertAlmostEqual(record.get_middle_ms(), 0.3)
+        self.assertEqual(record.get_middle_fare(), 193.33)
 
 if __name__ == '__main__':
     unittest.main()

@@ -20,7 +20,7 @@ The frontend sends the selected route, year, and quarter to a Flask API. The Pyt
 ### Run locally
 
 ```bash
-cd PythonProject
+cd airfare_prediction
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements-web.txt
@@ -40,3 +40,5 @@ Integration tests cover quarter-specific predictions, input validation, unavaila
 ### Limitations
 
 This is an exploratory learning project. Estimates use historical data rather than live ticket prices, and forecasting accuracy has not been validated.
+
+Records with missing required numeric values or combined carrier shares of 100% or more are excluded because the model's remaining-share calculation is undefined or invalid for those rows.

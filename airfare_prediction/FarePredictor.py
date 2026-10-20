@@ -21,8 +21,32 @@ class FarePredictor:
                 and line[3] == self.customer_route.get_city2()
                 and line[1] == str(self.customer_route.get_quarter())
             ):
+                try:
+                    fare = float(line[4])
+                    large_ms = float(line[5])
+                    large_fare = float(line[6])
+                    low_ms = float(line[7])
+                    low_fare = float(line[8])
+                except ValueError:
+                    continue
+
+                # The existing middle-fare formula needs a positive remainder.
+                if large_ms + low_ms >= 1:
+                    continue
+
                 self.route_list.append(
-                    Route.Route(int(line[0]), int(line[1]), line[2], line[3], float(line[4]), float(line[5]), float(line[6]), float(line[7]), float(line[8])))
+                    Route.Route(
+                        year=int(line[0]),
+                        quarter=int(line[1]),
+                        city1=line[2],
+                        city2=line[3],
+                        large_ms=large_ms,
+                        large_fare=large_fare,
+                        low_ms=low_ms,
+                        low_fare=low_fare,
+                        fare=fare,
+                    )
+                )
         if not self.route_list:
             print("No similar routes found. Cannot make prediction.")
             return

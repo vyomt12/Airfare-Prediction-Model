@@ -10,7 +10,7 @@ import numpy as np
 from flask import Flask, jsonify, request
 
 ROOT = Path(__file__).resolve().parent
-MODEL_DIR = ROOT if (ROOT / 'FarePredictor.py').exists() else ROOT / 'PythonProject'
+MODEL_DIR = ROOT if (ROOT / 'FarePredictor.py').exists() else ROOT / 'airfare_prediction'
 sys.path.insert(0, str(MODEL_DIR))
 from FarePredictor import FarePredictor, predict_fare
 from Route import Route
